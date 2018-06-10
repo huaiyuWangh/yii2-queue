@@ -1,0 +1,2 @@
+# yii2_redis_queue
+基于yii2框架和redis实现的队列系统
