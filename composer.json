@@ -1,14 +1,14 @@
 {
-    "name": "yii2_queue/queue",
+    "name": "yii2queue/queue",
     "description": "Yii2 Redis Queue ",
     "keywords": ["yii2", "redis", "queue"],
     "homepage": "http://www.yiiframework.com/",
     "type": "yii2-extension",
     "license": "MIT",
     "support": {
-        "issues": "https://github.com/huaiyuWangh/yii2_queue/issues",
+        "issues": "https://github.com/huaiyuWangh/yii2-queue/issues",
         "forum": "https://blog.csdn.net/why2142250",
-        "source": "https://github.com/huaiyuWangh/yii2_queue"
+        "source": "https://github.com/huaiyuWangh/yii2-queue"
     },
     "authors" : {
         "name": "wanghuaiyu",
@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "yii2queue": "src/"
+            "yii2queue\\queue\\": "src/"
         }
     }
 }

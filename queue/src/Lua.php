@@ -1,5 +1,5 @@
 <?php
-namespace yii2queue;
+namespace yii2queue\queue;
 
 class Lua extends RedisConnection
 {
