@@ -1,5 +1,5 @@
 {
-    "name": "yii2_queue",
+    "name": "yii2_redis_queue",
     "description": "Yii2 Redis Queue ",
     "keywords": ["yii2", "redis", "queue"],
     "homepage": "http://www.yiiframework.com/",
