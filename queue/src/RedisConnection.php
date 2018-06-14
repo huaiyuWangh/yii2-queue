@@ -5,19 +5,19 @@ use yii\base\Object;
 
 class RedisConnection extends Object
 {
-    private $_host = '127.0.0.1';
+    private $_hostname = '127.0.0.1';
     private $_port = '6379';
-    private $_auth = null;
-    private $_db = 0;
+    private $_password = null;
+    private $_database = 0;
 
     public function getClient()
     {
         $client = new \Redis();
-        $client->connect($this->_host, $this->_port);
-        if (!is_null($this->_auth)) {
-            $client->auth($this->_auth);
+        $client->connect($this->_hostname, $this->_port );
+        if (!is_null($this->_password)) {
+            $client->auth($this->_password);
         }
-        $client->select($this->_db);
+        $client->select($this->_database);
         return $client;
     }
 
