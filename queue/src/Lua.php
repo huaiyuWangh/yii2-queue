@@ -17,10 +17,9 @@ class Lua extends RedisConnection
         //lua脚本
         $lua = <<<LUA
         local key   = KEYS[1]
-        local value = ARGV[1]
-        local ttl   = ARGV[2]
+        local ttl   = ARGV[1]
 
-        local ok = redis.call('setnx', key, value)
+        local ok = redis.call('setnx', key, 1)
         if ok == 1 then
             redis.call('expire', key, ttl)
         end
@@ -51,32 +50,48 @@ LUA;
     }
 
     /**
-     * 计数
+     * 设置排行
      *
      * @param $key
-     * @param $info
+     * @param $member
+     * @param $score
      * @param $time
      */
-    public function count($key, array $info, $time)
+    public function setRank($key, $member, $score, $time)
     {
         $lua = <<<LUA
-            local key, args, life_time = KEYS[1], ARGV[1], ARGV[2]
-            -- 
-            args = cjson.decode(args)
-            -- 写入zset, 每个重复的member会自增1
-            for k, v in ipairs(args) do
-                local redis.call('ZINCRBY', key, 1, v)
-            end
+            local key, v, score, life_time = KEYS[1], ARGV[1], ARGV[2], ARGV[3]
             
-            -- 设置5小时过期
+            -- 写入zset, 进行排行
+            local ok = redis.call('ZINCRBY', key, score, v)
+
+            -- 设置过期时间
             if (-1 == redis.call('TTL', key)) then
-                local ok = redis.call('EXPIRE', key, life_time)
+                redis.call('EXPIRE', key, life_time)
             end
             
-            
-            return 'succ'
+            return ok
 LUA;
 
-        $result = $this->getClient()->eval($lua, [$key, json_encode($info), $time], 1);
+        $result = $this->getClient()->eval($lua, [$key, $member, $score,$time], 1);
+        return $result;
+    }
+
+    /**
+     * 获取排行
+     * @param $key
+     * @param $start
+     * @param $end
+     * @param bool $rev
+     * @param bool $withScores
+     * @return array
+     */
+    public function getRank($key, $start, $end, $rev = false, $withScores = false)
+    {
+        if (false === $rev) {
+            return $this->getClient()->zRange($key, $start, $end, $withScores);
+        } else {
+            return $this->getClient()->zRevRange($key, $start, $end, $withScores);
+        }
     }
 }
