@@ -10,10 +10,12 @@
         "forum": "https://blog.csdn.net/why2142250",
         "source": "https://github.com/huaiyuWangh/yii2-queue"
     },
-    "authors" : {
-        "name": "wanghuaiyu",
-        "email": "15574992541@163.com"
-    },
+    "authors" : [
+        {
+            "name": "huaiyuWangh",
+            "email": "15574992541@163.com"
+        }
+    ],
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": "*"
